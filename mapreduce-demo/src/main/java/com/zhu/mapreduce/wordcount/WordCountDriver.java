@@ -8,8 +8,6 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.IOException;
-
 
 /**
  * @Author ZhuHaiBo
@@ -17,8 +15,7 @@ import java.io.IOException;
  */
 public class WordCountDriver {
     public static void main(String[] args) throws Exception {
-        Configuration configuration = new Configuration();
-        Job job = Job.getInstance(configuration);
+        Job job = Job.getInstance(new Configuration());
 
         job.setJarByClass(WordCountDriver.class);
 
@@ -31,8 +28,8 @@ public class WordCountDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        FileInputFormat.setInputPaths(job, new Path(""));
-        FileOutputFormat.setOutputPath(job, new Path(""));
+        FileInputFormat.setInputPaths(job, new Path("F:\\hadoop\\wordcount\\input.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("F:\\hadoop\\wordcount\\output.txt"));
 
         boolean result = job.waitForCompletion(true);
 
