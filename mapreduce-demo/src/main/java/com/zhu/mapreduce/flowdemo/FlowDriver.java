@@ -1,35 +1,36 @@
-package com.zhu.mapreduce.wordcount;
+package com.zhu.mapreduce.flowdemo;
 
+import com.zhu.mapreduce.bean.FlowBean;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import java.io.IOException;
 
 /**
  * @Author ZhuHaiBo
- * @Create 2021/5/10 1:17
+ * @Create 2021/5/18 23:40
  */
-public class WordCountDriver {
+public class FlowDriver {
     public static void main(String[] args) throws Exception {
         Job job = Job.getInstance(new Configuration());
 
-        job.setJarByClass(WordCountDriver.class);
-
-        job.setMapperClass(WordCountMapper.class);
-        job.setReducerClass(WordCountReduce.class);
+        job.setJarByClass(FlowDriver.class);
 
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(FlowBean.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(FlowBean.class);
 
-        FileInputFormat.setInputPaths(job, new Path("F:\\hadoop\\wordcount\\input.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("F:\\hadoop\\wordcount\\output"));
+        job.setMapperClass(FlowMapper.class);
+        job.setReducerClass(FlowReduce.class);
+
+        FileInputFormat.setInputPaths(job, new Path("F:\\hadoop\\flow\\phone_number.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("F:\\hadoop\\flow\\output"));
 
         boolean result = job.waitForCompletion(true);
 
