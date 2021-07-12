@@ -16,7 +16,7 @@ import org.apache.flink.util.Collector;
  */
 public class StreamWordCount {
     public static void main(String[] args) throws Exception {
-        baseWordCount();
+        //baseWordCount();
 
         streamCurrentWordCount(args);
     }

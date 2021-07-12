@@ -21,7 +21,7 @@ public class Test2FileInput {
                     @Override
                     public void flatMap(String line, Collector<SensorRead> collector) throws Exception {
                         String[] split = line.split(",");
-                        collector.collect(SensorRead.builder().id(Integer.parseInt(split[0]))
+                        collector.collect(SensorRead.builder().id(split[0])
                                 .timestamp(Long.parseLong(split[1]))
                                 .temperature(Double.parseDouble(split[2])).build());
                     }

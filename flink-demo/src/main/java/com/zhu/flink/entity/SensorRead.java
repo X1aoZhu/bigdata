@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SensorRead {
 
-    private Integer id;
+    private String id;
 
     private Long timestamp;
 

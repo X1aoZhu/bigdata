@@ -23,9 +23,9 @@ public class Test1Collection {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
 
         List<SensorRead> source = Arrays.asList(
-                SensorRead.builder().id(1).temperature(35.1).timestamp(20210711L).build(),
-                SensorRead.builder().id(2).temperature(36.1).timestamp(20210712L).build(),
-                SensorRead.builder().id(3).temperature(37.1).timestamp(20210713L).build()
+                SensorRead.builder().id(String.valueOf(1)).temperature(35.1).timestamp(20210711L).build(),
+                SensorRead.builder().id(String.valueOf(2)).temperature(36.1).timestamp(20210712L).build(),
+                SensorRead.builder().id(String.valueOf(3)).temperature(37.1).timestamp(20210713L).build()
         );
 
         environment.fromElements("Hello", "World", "Hello", "Flink")

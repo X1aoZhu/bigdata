@@ -43,7 +43,7 @@ public class Test1Udf {
             while (flag) {
                 for (Map.Entry<String, Double> entry : map.entrySet()) {
                     Double source = map.get(entry.getKey());
-                    ctx.collect(SensorRead.builder().id(id++).timestamp(timestamp++).temperature(source).build());
+                    ctx.collect(SensorRead.builder().id(String.valueOf(id++)).timestamp(timestamp++).temperature(source).build());
                 }
             }
         }
