@@ -8,7 +8,7 @@ import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 
 /**
- * Flink TableApi
+ * Flink TableApi && DataStream
  *
  * @author: ZhuHaiBo
  * @date: 2021/7/15  11:18
@@ -17,6 +17,7 @@ public class TableApiExample {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
 
+        // 使用DataStream作为数据源，并以TableApi输出
         DataStream<SensorRead> source = environment.readTextFile("flink-demo/src/main/resources/SensorRead.txt")
                 .flatMap((FlatMapFunction<String, SensorRead>) (line, collector) -> {
                     String[] split = line.split(",");
