@@ -6,7 +6,6 @@
     <content url="file://$MODULE_DIR$/../flink-exec-1.10">
       <sourceFolder url="file://$MODULE_DIR$/../flink-exec-1.10/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../flink-exec-1.10/src/main/resources" type="java-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/../flink-ecec-1.10/target" />
       <excludeFolder url="file://$MODULE_DIR$/../flink-exec-1.10/target" />
     </content>
