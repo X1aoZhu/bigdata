@@ -80,10 +80,16 @@ public class FlinkCdcBySql {
                 "  is_arrived BOOLEAN,\n" +
                 "  PRIMARY KEY (order_id) NOT ENFORCED\n" +
                 ") WITH (\n" +
-                "    'connector' = 'elasticsearch-7',\n" +
-                "    'hosts' = 'http://hadoop2:9200',\n" +
-                "    'index' = 'enriched_orders'\n" +
+                "    'connector' = 'kafka',\n" +
+                "    'hosts' = '',\n" +
+                "    'topic' = 'enriched_orders'\n" +
                 ")");
+
+        tableEnvironment.executeSql("INSERT INTO enriched_orders\n" +
+                "SELECT o.*, p.name, p.description, s.shipment_id, s.origin, s.destination, s.is_arrived\n" +
+                "FROM orders AS o\n" +
+                "LEFT JOIN products AS p ON o.product_id = p.id\n" +
+                "LEFT JOIN shipments AS s ON o.order_id = s.order_id");
 
         Table productTable = tableEnvironment.sqlQuery("select * from products");
         tableEnvironment.toRetractStream(productTable, Row.class).print("Product");

@@ -8,6 +8,7 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.descriptors.Elasticsearch;
 import org.apache.flink.types.Row;
 
 /**
@@ -33,14 +34,25 @@ public class FlinkCdcByTableApi {
                 .username("root")
                 .password("root")
                 .databaseList("flink_cdc")
+                .tableList("products", "orders", "shipments")
                 .deserializer(new StringDebeziumDeserializationSchema())
                 .build();
+
+        // Elasticsearch
+
+
 
         DataStreamSource<String> dataStreamSource = environment.addSource(sourceFunction);
 
         tableEnvironment.createTemporaryView("mysql_binlog", dataStreamSource);
         Table tempTable = tableEnvironment.sqlQuery("SELECT * FROM mysql_binlog");
         tableEnvironment.toAppendStream(tempTable, Row.class).print();
+
+        tableEnvironment.executeSql("INSERT INTO enriched_orders\n" +
+                "SELECT o.*, p.name, p.description, s.shipment_id, s.origin, s.destination, s.is_arrived\n" +
+                "FROM orders AS o\n" +
+                "LEFT JOIN products AS p ON o.product_id = p.id\n" +
+                "LEFT JOIN shipments AS s ON o.order_id = s.order_id");
 
         environment.execute();
     }
