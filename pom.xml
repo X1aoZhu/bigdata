@@ -14,7 +14,6 @@
         <module>hive-demo</module>
         <module>flink-exec-1.10</module>
         <module>flink-exec-1.13</module>
-        <module>flink-demo</module>
         <module>flume-interceptor</module>
     </modules>
 
