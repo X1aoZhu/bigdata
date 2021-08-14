@@ -1,0 +1,14 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: boot-exec
+  datasource:
+    url: jdbc:mysql://192.168.240.155:3306/flink_test1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
