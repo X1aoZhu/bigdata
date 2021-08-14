@@ -18,14 +18,12 @@ create table if not exists order_item
     update_time       date
 );
 
-create table if not exists product
+create table sys_product
 (
-    id          bigint primary key,
-    name        varchar(32),
-    price       decimal,
-    create_time date,
-    update_time date
+    id          bigint       not null
+        primary key,
+    name        varchar(256) null,
+    price       decimal      null,
+    create_time timestamp    null,
+    update_time timestamp    null
 );
-
-insert into flink_test1.sys_order(id, total_amount, status, create_time, update_time)
-VALUES (1, 100, 1, now(), now());

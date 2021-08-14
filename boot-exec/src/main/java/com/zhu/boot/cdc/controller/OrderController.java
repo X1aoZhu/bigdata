@@ -1,6 +1,7 @@
 package com.zhu.boot.cdc.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -54,8 +55,8 @@ public class OrderController {
         //order
         Order order = Order.builder().id(orderId)
                 .status(1)
-                .createTime(DateUtil.date())
-                .updateTime(DateUtil.date())
+                .createTime(DateTime.now())
+                .updateTime(DateTime.now())
                 .build();
 
         //orderItem
@@ -76,8 +77,8 @@ public class OrderController {
             orderItem.setProductCount(count);
             orderItem.setOrderItemAmount(product.getPrice().multiply(new BigDecimal(count)));
 
-            orderItem.setCreateTime(DateUtil.date());
-            orderItem.setUpdateTime(DateUtil.date());
+            orderItem.setCreateTime(DateTime.now());
+            orderItem.setUpdateTime(DateTime.now());
             orderItemList.add(orderItem);
         }
 
@@ -137,11 +138,11 @@ public class OrderController {
 
     @GetMapping("/updateOrderStatus/{orderId}")
     @Transactional(rollbackFor = Exception.class)
-    public OrderDto updateOrderStatus(@PathVariable("orderId") Long orderId) {
+    public OrderDto updateOrderStatus(@PathVariable("orderId") String orderId) {
         Order order = orderMapper.selectById(orderId);
         Assert.notNull(order, "illegal orderId");
         order.setStatus(2);
-        order.setUpdateTime(DateUtil.date());
+        order.setUpdateTime(DateTime.now());
         orderMapper.updateById(order);
 
         QueryWrapper<OrderItem> orderItemQueryWrapper = new QueryWrapper<>();
@@ -168,8 +169,8 @@ public class OrderController {
         Product product = Product.builder().id(id)
                 .name(StringUtils.isNotBlank(productDto.getName()) ? productDto.getName() : "product_" + id)
                 .price(productDto.getPrice())
-                .createTime(DateUtil.date())
-                .updateTime(DateUtil.date())
+                .createTime(DateTime.now())
+                .updateTime(DateTime.now())
                 .build();
 
         productMapper.insert(product);
@@ -183,7 +184,7 @@ public class OrderController {
 
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
-        product.setUpdateTime(DateUtil.date());
+        product.setUpdateTime(DateTime.now());
         productMapper.updateById(product);
 
         return product;
