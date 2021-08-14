@@ -1,5 +1,7 @@
 package com.zhu.boot.cdc.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class OrderItem {
 
+    @TableId(value = "id", type = IdType.INPUT)
     private Long id;
 
     private Long orderId;

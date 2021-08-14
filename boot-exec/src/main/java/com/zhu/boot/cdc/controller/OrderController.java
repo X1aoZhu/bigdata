@@ -61,11 +61,13 @@ public class OrderController {
 
         //orderItem
         List<Product> productList = productMapper.selectList(new QueryWrapper<>());
-        List<Product> productScoreList = new ArrayList<>();
+        List<Product> tempList = new ArrayList<>();
         for (int i = 0; i <= RandomUtil.randomInt(1, productList.size()); i++) {
             Product product = productList.get(RandomUtil.randomInt(0, productList.size()));
-            productScoreList.add(product);
+            tempList.add(product);
         }
+        List<Product> productScoreList = tempList.stream().distinct().collect(Collectors.toList());
+
         List<OrderItem> orderItemList = new ArrayList<>(productScoreList.size());
         for (Product product : productScoreList) {
             OrderItem orderItem = new OrderItem();
@@ -73,7 +75,7 @@ public class OrderController {
             orderItem.setOrderId(orderId);
             orderItem.setProductId(product.getId());
 
-            int count = RandomUtil.randomInt(0, 20);
+            int count = RandomUtil.randomInt(1, 3);
             orderItem.setProductCount(count);
             orderItem.setOrderItemAmount(product.getPrice().multiply(new BigDecimal(count)));
 
@@ -95,8 +97,13 @@ public class OrderController {
         orderItemList.forEach(orderItem -> {
             OrderItemDto orderItemDto = new OrderItemDto();
             BeanUtils.copyProperties(orderItem, orderItemDto);
+            orderItemDto.setOrderItemId(orderItem.getId());
+            orderItemDto.setProductCount(orderItem.getProductCount());
             orderItemDtoList.add(orderItemDto);
         });
+        result.setOrderId(orderId);
+        result.setOrderStatus(1);
+        result.setTotalAmount(order.getTotalAmount());
         result.setOrderItemList(orderItemDtoList);
         return result;
     }
@@ -123,15 +130,19 @@ public class OrderController {
         orderList.forEach(order -> {
             OrderDto orderDto = new OrderDto();
             BeanUtils.copyProperties(order, orderDto);
+            orderDto.setOrderId(order.getId());
+            orderDto.setOrderStatus(order.getStatus());
             List<OrderItem> tempItemList = orderItemMap.get(order.getId());
 
             ArrayList<OrderItemDto> orderItemDtos = new ArrayList<>();
             tempItemList.forEach(item -> {
                 OrderItemDto orderItemDto = new OrderItemDto();
                 BeanUtils.copyProperties(item, orderItemDto);
+                orderItemDto.setOrderItemId(item.getId());
                 orderItemDtos.add(orderItemDto);
             });
             orderDto.setOrderItemList(orderItemDtos);
+            result.add(orderDto);
         });
         return result;
     }
@@ -153,11 +164,14 @@ public class OrderController {
         orderItems.forEach(orderItem -> {
             OrderItemDto orderItemDto = new OrderItemDto();
             BeanUtils.copyProperties(orderItem, orderItemDto);
+            orderItemDto.setOrderItemId(orderItem.getId());
             orderItemDtoList.add(orderItemDto);
         });
 
         OrderDto orderDto = new OrderDto();
         BeanUtils.copyProperties(order, orderDto);
+        orderDto.setOrderId(order.getId());
+        orderDto.setOrderStatus(order.getStatus());
         orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
