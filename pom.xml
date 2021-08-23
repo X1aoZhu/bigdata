@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.zhu</groupId>
-    <artifactId>hadoop-demo</artifactId>
+    <artifactId>bigdata</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
