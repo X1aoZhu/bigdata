@@ -23,6 +23,7 @@
         <module>flink-exec-1.13</module>
         <module>flume-interceptor</module>
         <module>boot-exec</module>
+        <module>kafka-exec</module>
     </modules>
 
     <build>
